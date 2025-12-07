@@ -14,7 +14,7 @@ grades:         db  0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 total:          dw  0
 average:        db  0
 
-
+;Hi
 readGrades:	
             cmp si, 10
             je inputEnd 
