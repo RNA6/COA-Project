@@ -1,8 +1,10 @@
 jmp 	start
 
-promptText:		db	'Enter students grades 0-100 (maximum 10 students) or any non numeric charchters to stop: $' 
+promptText:		db	'Enter students grades 0-100 (maximum 10 students) or empty string to stop: $' 
 gradeErrorText:	db	'Please enter only grades from 0 to 100!! $'
 noGradeErrorText:   db	'You did not enter a grade!! $'
+tryAgainText:   db  'Do you want to try again (1 for yes, others for no)? $'
+thankYouText:       db  'Thank you for using our program!$'
 totalText:		db	'Total is $'  
 averageText:    db	'Average is $'  
 gradesText:		db	'Grades are $'
@@ -107,20 +109,42 @@ newline:
 		int	21h
         ret
 
+tryAgain:
+        mov	dx, promptText
+    	mov	ah, 09h
+    	int	21h
+    	
+    	cmp	al, '1'
+    	jne end
+    	
+    	call   newline
+        call   moveToBeggining
+        call   newline
+        jmp start           	
+
 
 start:	
         mov bp, 0
         mov si, 0
 		call 	readGrades
 		
-		mov si, numOfStudent 
-		
-		mov bP, 'E'
+		mov si, numOfStudent
+
 		cmp [si], 0
 		je noGrade 
 		
+thankYou:
+        call   newline
+        call   moveToBeggining 
+        call   newline
+        mov	dx, thankYouText
+		mov	ah, 09h
+		int	21h
+		ret
+
         
-end:
+end:    
+        call thankYou
 		mov	ax, 0x4c00		;terminate program
 		int 	21h
 
