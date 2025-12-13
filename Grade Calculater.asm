@@ -158,8 +158,6 @@ D:
     mov dx, 44h
     jmp printCharachter
 
-        
-    
 
 displayGrades:
         mov	dx, gradesText
@@ -223,8 +221,73 @@ writeNumber:
     		int	21h
     		dec	cx
     		jnz	pop2
-    		ret
+    		ret 
+    		
+calculateTotal:       ;calculate total of grades
+        mov si, grades        ;point to grades array
 
+        mov cx, 0
+        mov di, numOfStudent ;use register to access variable
+        mov al, [di]
+        mov cl, al
+
+        mov ax, 0             ;AX will store total
+
+sumLoop:
+        cmp cx, 0
+        je  saveTotal
+
+        mov bl, [si]          ;get grade
+        add ax, bx            ;add grade to total
+        inc si                ;move to next grade
+        dec cx
+        jmp sumLoop
+
+saveTotal:
+        mov [total], ax       ;save total
+        ret
+           
+printCalculateTotal:       ;print total of grades
+        mov dx, totalText
+        mov ah, 09h
+        int 21h
+
+        mov si, total
+        mov bp, 0
+        call writeNumber
+
+        call moveToBeggining
+        call newline
+        ret
+        
+calculateAverage:     ;calculate average of grades
+        mov ax, [total]
+
+        mov si, numOfStudent
+        mov bl, [si]
+
+        cmp bl, 0
+        je  averageEnd
+
+        div bl
+        mov [average], al
+
+averageEnd:
+        ret
+                  
+printCalculateAverage:    ;print average of grades
+        mov dx, averageText
+        mov ah, 09h
+        int 21h
+
+        mov si, average
+        mov bp, 0
+        call writeNumber
+
+        call moveToBeggining
+        call newline
+        ret
+                 
 moveToBeggining:       ;move cursor to the beggining of the line
         mov	dx, 0Dh
     	mov	ah, 02h
@@ -267,13 +330,19 @@ start:
 		call    moveToBeggining 
         call    newline
         call    newLine
-        
-        call    displayGrades
+              
+		call    displayGrades
+		call    moveToBeggining 
+        call    newline 
+        call    displayGradeCharachter
         call    moveToBeggining 
-        call    newline
-		call    displayGradeCharachter 
+        call    newline 
 		
-		
+		call    calculateTotal
+        call    calculateAverage  
+        
+		call    printCalculateTotal
+        call    printCalculateAverage
 		
 		call    end
 		
