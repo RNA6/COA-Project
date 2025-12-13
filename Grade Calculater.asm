@@ -9,7 +9,7 @@ thankYouText:       db  'Thank you for using our program!$'
 gradesText:		db	'Grades are $'
 totalText:		db	'Total is $'  
 averageText:    db	'Average is $'  
-gradeCharachtersText:		db	'Grades Charchters are $'
+gradeCharactersText:		db	'Grades Charcters are $'
 
 linefeed:	    db	10 ,'$'         ; 10d is the ascii code for line feed
 
@@ -104,8 +104,8 @@ noGrade:
 		
 		jmp tryAgain
 
-displayGradeCharachter:   
-        mov	dx, gradeCharachtersText  
+displayGradeCharacter:   
+        mov	dx, gradeCharactersText  
     	mov	ah, 09h
     	int	21h
         mov si, numOfStudent 
@@ -135,10 +135,10 @@ traceGrades:
         jge D                         
          
         mov dx, 46h           ;For grade F
-        jmp printCharachter
+        jmp printCharacter
         
-printCharachter:         
-    	mov	ah, 02h   ;print single charachter
+printCharacter:         
+    	mov	ah, 02h   ;print single character
     	int	21h
     	mov dx, 20h   ;add space between grades
     	mov	ah, 02h
@@ -147,16 +147,16 @@ printCharachter:
         
 A: 
     mov dx, 41h
-    jmp printCharachter
+    jmp printCharacter
 B:  
     mov dx, 42h
-    jmp printCharachter
+    jmp printCharacter
 C:
     mov dx, 43h
-    jmp printCharachter
+    jmp printCharacter
 D:
     mov dx, 44h
-    jmp printCharachter
+    jmp printCharacter
 
 
 displayGrades:
@@ -165,7 +165,7 @@ displayGrades:
     	int	21h
         mov si, numOfStudent 
         mov cx, 0
-        mov cl, [si]
+        mov cl, [si]         ;number of students' grades
         mov bp, 0
         mov di, cx
         
@@ -334,7 +334,7 @@ start:
 		call    displayGrades
 		call    moveToBeggining 
         call    newline 
-        call    displayGradeCharachter
+        call    displayGradeCharacter
         call    moveToBeggining 
         call    newline 
 		
