@@ -9,7 +9,7 @@ thankYouText:       db  'Thank you for using our program!$'
 gradesText:		db	'Grades are $'
 totalText:		db	'Total is $'  
 averageText:    db	'Average is $'  
-gradeCharachtersText:		db	'Grades Charchters are $'
+gradeCharachtersText:		db	'Grades Characters are $'
 
 linefeed:	    db	10 ,'$'         ; 10d is the ascii code for line feed
 
@@ -169,7 +169,7 @@ displayGrades:
         mov cx, 0
         mov cl, [si]
         mov bp, 0
-        mov di, cx
+        mov di, cx      ;number of students
         
         mov si, grades
         
