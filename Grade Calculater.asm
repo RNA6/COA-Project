@@ -368,7 +368,7 @@ start:
 		call    printCalculateTotal
         call    printCalculateAverage
 		
-		call    end
+		jmp    tryAgain
 		
 thankYou:
         call   newline
