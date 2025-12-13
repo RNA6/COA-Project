@@ -201,26 +201,49 @@ printGrade:
         jmp printGrade 
         
  
-writeNumber:
+writeDBNumber:
         mov ax, 0
         mov al, [si + bp]
         inc bp
         	
         mov	bx, 10
 		mov	cx, 0
-    push2:		mov	dx, 0
+    pushDB:		mov	dx, 0
     		div	bx
     		push	dx
     		inc 	cx
     		cmp	al, 0
-    		jne	push2
+    		jne	pushDB
     
-    pop2:		pop	dx
+    popDB:		pop	dx
     		add	dl, 30h
     		mov	ah, 02h
     		int	21h
     		dec	cx
-    		jnz	pop2
+    		jnz	popDB
+    		ret
+    		
+    		 
+writeDWNumber:
+        mov ax, 0
+        mov ax, [si + bp]
+        inc bp
+        	
+        mov	bx, 10
+		mov	cx, 0
+    pushDW:		mov	dx, 0
+    		div	bx
+    		push	dx
+    		inc 	cx
+    		cmp	ax, 0
+    		jne	pushDW
+    
+    popDW:		pop	dx
+    		add	dl, 30h
+    		mov	ah, 02h
+    		int	21h
+    		dec	cx
+    		jnz	popDW
     		ret 
     		
 calculateTotal:       ;calculate total of grades
@@ -254,14 +277,15 @@ printCalculateTotal:       ;print total of grades
 
         mov si, total
         mov bp, 0
-        call writeNumber
+        call writeDWNumber
 
         call moveToBeggining
         call newline
         ret
         
-calculateAverage:     ;calculate average of grades
-        mov ax, [total]
+calculateAverage:     ;calculate average of grades    
+        mov si, total
+        mov ax, [si]
 
         mov si, numOfStudent
         mov bl, [si]
@@ -282,7 +306,7 @@ printCalculateAverage:    ;print average of grades
 
         mov si, average
         mov bp, 0
-        call writeNumber
+        call writeDBNumber
 
         call moveToBeggining
         call newline
